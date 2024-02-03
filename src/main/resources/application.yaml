@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: passerelle
+
+  cloud:
+    consul:
+      discovery:
+        register: true
+      host: ${CONSUL_HOST:localhost}
+      port: ${CONSUL_PORT:8500}
+      ribbon:
+        enabled: false
+
+    gateway:
+      routes:
+        - id: utilisateur
+          uri: lb://utilisateur
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<path>.*), /auth/$\{path}
+            - PreserveHostHeader=true
+
