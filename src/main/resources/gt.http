@@ -1,8 +1,9 @@
-POST http://localhost:8080/api/auth/login
+POST http://localhost:8080/api/auth/connexion
 Content-Type: application/json
 
 {
-
+  "email": "root@root.com",
+  "motDePasse": "root"
 }
 > {%
     client.test("Request executed successfully", function() {

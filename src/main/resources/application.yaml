@@ -13,11 +13,79 @@ spring:
 
     gateway:
       routes:
-        - id: utilisateur
+        - id: utilisateur-auth
           uri: lb://utilisateur
           predicates:
             - Path=/api/auth/**
           filters:
             - RewritePath=/api/auth/(?<path>.*), /auth/$\{path}
             - PreserveHostHeader=true
-
+        - id: utilisateur-users
+          uri: lb://utilisateur
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - RewritePath=/api/users/(?<path>.*), /users/$\{path}
+            - PreserveHostHeader=true
+        - id: get-me
+          uri: lb://utilisateur
+          predicates:
+            - Path=/api/moi
+          filters:
+            - RewritePath=/api/moi, /users/me
+            - PreserveHostHeader=true
+        - id: catalogue-produits
+          uri: lb://catalogue
+          predicates:
+            - Path=/api/produits/**
+          filters:
+            - RewritePath=/api/produits/(?<path>.*), /produits/$\{path}
+            - PreserveHostHeader=true
+        - id: catalogue-categories
+          uri: lb://catalogue
+          predicates:
+            - Path=/api/categories/**
+          filters:
+            - RewritePath=/api/categories/(?<path>.*), /categories/$\{path}
+            - PreserveHostHeader=true
+        - id: commandes
+          uri: lb://commande
+          predicates:
+            - Path=/api/commandes/**
+          filters:
+            - RewritePath=/api/commandes/(?<path>.*), /commandes/$\{path}
+            - PreserveHostHeader=true
+        - id: commande-paniers
+          uri: lb://commande
+          predicates:
+            - Path=/api/paniers/**
+          filters:
+            - RewritePath=/api/paniers/(?<path>.*), /paniers/$\{path}
+            - PreserveHostHeader=true
+        - id: commande-gestionnaires-commandes
+          uri: lb://commande
+          predicates:
+            - Path=/api/gestionnaires/commandes/**
+          filters:
+            - RewritePath=/api/gestionnaires/commandes/(?<path>.*), /gestionnaires/commandes/$\{path}
+            - PreserveHostHeader=true
+        - id: reapprovisionnement-fournisseurs
+          uri: lb://reapprovisionnement
+          predicates:
+            - Path=/api/fournisseurs/**
+          filters:
+            - RewritePath=/api/fournisseurs/(?<path>.*), /fournisseurs/$\{path}
+            - PreserveHostHeader=true
+        - id: reapprovisionnement-bon-de-commandes
+          uri: lb://reapprovisionnement
+          predicates:
+            - Path=/api/bon_de_commandes/**
+          filters:
+            - RewritePath=/api/bon_de_commandes/(?<path>.*), /bon_de_commandes/$\{path}
+            - PreserveHostHeader=true
+        - id: client
+          uri: ${CLIENT_URL:http://localhost:4200}
+          predicates:
+            - Path=/**
+          filters:
+            - PreserveHostHeader=true
