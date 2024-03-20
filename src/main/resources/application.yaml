@@ -142,16 +142,16 @@ spring:
         - id: reapprovisionnement-bon-de-commandes-root
           uri: lb://reapprovisionnement
           predicates:
-            - Path=/api/bon_de_commandes
+            - Path=/api/boncommandes
           filters:
-            - RewritePath=/api/bon_de_commandes, /bon_de_commandes
+            - RewritePath=/api/boncommandes, /boncommandes
             - PreserveHostHeader=true
         - id: reapprovisionnement-bon-de-commandes
           uri: lb://reapprovisionnement
           predicates:
-            - Path=/api/bon_de_commandes/**
+            - Path=/api/boncommandes/**
           filters:
-            - RewritePath=/api/bon_de_commandes/(?<path>.*), /bon_de_commandes/$\{path}
+            - RewritePath=/api/boncommandes/(?<path>.*), /boncommandes/$\{path}
             - PreserveHostHeader=true
         - id: client
           uri: ${CLIENT_URL:http://localhost:4200}
