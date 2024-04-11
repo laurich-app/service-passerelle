@@ -153,6 +153,20 @@ spring:
           filters:
             - RewritePath=/api/boncommandes/(?<path>.*), /boncommandes/$\{path}
             - PreserveHostHeader=true
+        - id: notifications-root
+          uri: lb://notification
+          predicates:
+            - Path=/api/notifications
+          filters:
+            - RewritePath=/api/notifications, /notifications
+            - PreserveHostHeader=true
+        - id: notifications
+          uri: lb://notification
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<path>.*), /notifications/$\{path}
+            - PreserveHostHeader=true
         - id: client
           uri: ${CLIENT_URL:http://localhost:4200}
           predicates:
